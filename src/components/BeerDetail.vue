@@ -10,9 +10,6 @@ export default {
       type: Object,
       default: () => null
     }
-  },
-  created() {
-    
   }
 };
 </script>

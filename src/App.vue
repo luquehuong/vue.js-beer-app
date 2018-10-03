@@ -2,18 +2,21 @@
   <div>
     <div class="flex">
       <div class="w-1/3">
+        <input v-model="queryString" type="search"/>
+        <div>{{ searchStatus }}</div>
         <beer-list 
-          v-bind:list="beerList" 
+          v-bind:list="searchResult" 
           @chooseBeer="onChangeBeer"/>
       </div>
       <div class="w-2/3">
-        <beer-details :beer="selectedBeer">Detail</beer-details>
+        <beer-details :beer="selectedBeer"></beer-details>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import debounce from "lodash/debounce"
 import BeerList from "@/components/BeerList";
 import BeerDetails from "@/components/BeerDetail";
 import axios from "axios";
@@ -32,8 +35,28 @@ export default {
   data() {
     return {
       beerList: [],
-      selectedBeer: null
+      selectedBeer: null,
+      queryString: '',
+      typing: false,
+      fetching: false
     };
+  },
+  watch: {
+    queryString(val) {
+      this.typing = true
+      this.search()
+    }
+  },
+  computed: {
+    searchResult() {
+      if(!this.queryString) return this.beerList
+      return this.beerList.filter(b => b.name.includes(this.queryString)) 
+    },
+    searchStatus() {
+      if(this.fetching) return 'Fetching...'
+      if(this.typing) return 'Typing...'
+      return 'Done'
+    }
   },
   async created() {
     try {
@@ -47,7 +70,15 @@ export default {
   methods: {
     onChangeBeer(beer) {
       this.selectedBeer = beer
-    }
+    },
+    search: debounce(function() {
+      this.fetching = true
+      setTimeout(() => {
+        console.log('here')
+        this.fetching = false
+        this.typing = false
+      }, 500)
+    }, 500)
   },
 };
 </script>
