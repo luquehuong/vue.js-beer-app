@@ -1,12 +1,11 @@
 <template>
   <div>
-    {{$route.id}}
+    {{$route.random}}
   </div>
 </template>
 
 <script>
   export default {
-    
   }
 </script>
 

@@ -1,5 +1,12 @@
 <template>
   <div>
+    <div>
+      <router-link
+        :to="{name:'random'}"
+      >
+        Random Beer
+      </router-link>
+    </div>
     <div
       v-for="beer in list"
       :key="beer.id"
@@ -19,10 +26,6 @@ export default {
     list: {
       type: Array,
       default: () => []
-    }
-  },
-  methods: {
-    chooseBeer(beer) {
     }
   }
 };

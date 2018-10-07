@@ -3,6 +3,7 @@
     <div class="flex">
       <div class="w-1/3">
         {{$route.params.id}}
+        {{$route.random}}
         <input v-model="queryString" type="search"/>
         <div>{{ searchStatus }}</div>
         <beer-list 
@@ -74,8 +75,8 @@ export default {
       this.beerList = data;
       const {id} = this.$route.params
       this.selectedBeer = data.find(b => {
-            return b.id == id
-          })
+        return b.id == id
+      })
     } catch (e) {
       console.error(e)
     }
