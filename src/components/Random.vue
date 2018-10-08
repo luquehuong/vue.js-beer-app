@@ -1,7 +1,6 @@
 <template>
   <div>
     Random beers:
-    {{$route.random}}
     <ul
       v-for="beer in randomBeers"
       :key="beer.id"

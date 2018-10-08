@@ -1,15 +1,25 @@
 <template>
-  <div>
+  <div class="container px-4 mx-auto">
+    <div class="topnav">
+      <div>
+        <router-link class="flex float-right"
+          :to="{name:'random'}"
+        >
+          Random Beers
+        </router-link>
+      </div>
+      <div class="w-1/3 flex">
+        <input class="w-full" placeholder="Search beers.." name="search" v-model="queryString" type="search"/>
+    </div>
+      <div>{{ searchStatus }}</div>
+    </div>
     <div class="flex">
-      <div class="w-1/3">
-        {{$route.params.id}}
-        <input v-model="queryString" type="search"/>
-        <div>{{ searchStatus }}</div>
+      <div class="w-1/3 sidebar">
         <beer-list 
           v-bind:list="searchResult" 
           @chooseBeer="onChangeBeer"/>
       </div>
-      <div class="w-2/3">
+      <div class="w-2/3 text-center">
         <beer-details :beer="selectedBeer"></beer-details>
       </div>
     </div>
@@ -21,6 +31,8 @@ import debounce from "lodash/debounce"
 import BeerList from "@/components/BeerList";
 import BeerDetails from "@/components/BeerDetail";
 import axios from "axios";
+import '@/assets/styles/tailwind.css';
+import '@/assets/styles/main.css';
 
 export default {
   components: {
