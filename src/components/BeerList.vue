@@ -4,7 +4,7 @@
       <router-link
         :to="{name:'random'}"
       >
-        Random Beer
+        Random Beers
       </router-link>
     </div>
     <div

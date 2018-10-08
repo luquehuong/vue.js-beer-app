@@ -3,7 +3,6 @@
     <div class="flex">
       <div class="w-1/3">
         {{$route.params.id}}
-        {{$route.random}}
         <input v-model="queryString" type="search"/>
         <div>{{ searchStatus }}</div>
         <beer-list 

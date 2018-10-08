@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
-import RandomBeer from '@/components/RandomBeer'
+import Random from '@/components/Random'
 Vue.use(Router)
 
 export default new Router({
@@ -15,7 +15,7 @@ export default new Router({
     {
       path: '/random',
       name: 'random',
-      component: RandomBeer
+      component: Random
     },
     {
       path: '/beer/:id',
