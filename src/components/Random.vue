@@ -1,19 +1,21 @@
 <template>
   <div>
     Random beers:
-    <ul
+    <div class="container mx-auto -px-4"
       v-for="beer in randomBeers"
       :key="beer.id"
     >
-      <li>
-        {{ beer.name }}
-      </li>
-    </ul>
+      <img class="img-random" :src="beer.image_url">
+      {{ beer.name }}
+    </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import '@/assets/styles/tailwind.css';
+import '@/assets/styles/main.css';
+
 export default {
   data() {
     return {
@@ -23,7 +25,7 @@ export default {
   async created() {
     try {
       this.randomBeers = [];
-      for (var i = 1; i <= 5; i++) {
+      for (var i = 1; i <= 6; i++) {
         const { data } = await axios.get("https://api.punkapi.com/v2/beers/random");
         this.randomBeers.push(data[0]);
       }

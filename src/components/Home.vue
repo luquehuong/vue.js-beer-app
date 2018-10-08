@@ -2,14 +2,14 @@
   <div class="container px-4 mx-auto">
     <div class="topnav">
       <div>
-        <router-link class="flex float-right"
+        <router-link class="flex float-right text-white font-semibold my-4 -px-4"
           :to="{name:'random'}"
         >
           Random Beers
         </router-link>
       </div>
-      <div class="w-1/3 flex">
-        <input class="w-full" placeholder="Search beers.." name="search" v-model="queryString" type="search"/>
+      <div class="w-1/3 flex -px-4">
+        <input class="w-full" placeholder="Find your beer..." name="search" v-model="queryString" type="search"/>  
     </div>
       <div>{{ searchStatus }}</div>
     </div>
@@ -19,7 +19,7 @@
           v-bind:list="searchResult" 
           @chooseBeer="onChangeBeer"/>
       </div>
-      <div class="w-2/3 text-center">
+      <div class="w-2/3 text-center my-12 -px-4 detail">
         <beer-details :beer="selectedBeer"></beer-details>
       </div>
     </div>
@@ -51,7 +51,7 @@ export default {
       selectedBeer: null,
       queryString: '',
       typing: false,
-      fetching: false
+      fetching: false,
     };
   },
   watch: {
