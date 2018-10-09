@@ -1,6 +1,6 @@
 <template>
-  <div>
-    Random beers:
+  <div class="container text-center mx-auto">
+    <div class="font-semibold text-xl text-blue-dark">Random beers:</div>
     <div class="container mx-auto -px-4"
       v-for="beer in randomBeers"
       :key="beer.id"

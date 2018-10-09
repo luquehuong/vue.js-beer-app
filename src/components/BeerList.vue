@@ -8,6 +8,7 @@
         :to="{name:'detail',params:{id:beer.id}}"
       >
         {{ beer.name }}
+        <font-awesome-icon class="float-right" icon="trash" size="xs" />
       </router-link>
     </div>
   </div>
