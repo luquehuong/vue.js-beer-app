@@ -17,10 +17,9 @@
       <div class="w-1/3 sidebar">
         <create-beer v-on:create-beer="createBeer"></create-beer>
         <beer-list 
-          v-on="deleteBeer"
           v-bind:list="searchResult" 
-          @chooseBeer="onChangeBeer">
-          <delete-beer v-on:delete-beer="deleteBeer"></delete-beer>
+          @chooseBeer="onChangeBeer"
+          v-on:delete-beer="deleteBeer">
         </beer-list>
       </div>
       <div class="w-2/3 text-center my-12 -px-4 detail">
@@ -42,7 +41,7 @@ export default {
   components: {
     BeerList,
     BeerDetails,
-    CreateBeer
+    CreateBeer,
   },
   props: {
     chooseBeer: {
@@ -87,10 +86,11 @@ export default {
   },
   async created() {
     try {
+      this.beerList = [];
       const { data } = await axios.get("https://api.punkapi.com/v2/beers");
       this.beerList = data;
       const {id} = this.$route.params
-      this.selectedBeer = beerList.find(b => {
+      this.selectedBeer = this.beerList.find(b => {
         return b.id == id
       })
     } catch (e) {
@@ -109,7 +109,7 @@ export default {
       }, 500)
     }, 500),
     deleteBeer(beer) {
-      this.selectedBeer = beer,
+      this.beer = beer,
       sweetalert({
         title: 'Are you sure?',
         text: 'This beer will be permanently deleted!',
@@ -120,13 +120,13 @@ export default {
         closeOnConfirm: false,
       },
       () => {
-        const beerIndex = this.data.indexOf(beer);
-        this.data.splice(beerIndex, 1);
+        const beerIndex = this.beerList.indexOf(beer);
+        this.beerList.splice(beerIndex, 1);
         sweetalert('Deleted!', 'Your beer has been deleted.', 'success');
       });
     },
     createBeer(newBeer) {
-      this.beerList.push(newBeer);
+      this.beerList = this.beerList.concat({...newBeer, id: Date().now});
       sweetalert('Success!', 'Beer created!', 'success');
     },
   },
