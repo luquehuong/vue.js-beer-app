@@ -15,9 +15,12 @@
     </div>
     <div class="flex">
       <div class="w-1/3 sidebar">
+        <create-beer v-on:create-beer="createBeer"></create-beer>
         <beer-list 
+          v-on="deleteBeer"
           v-bind:list="searchResult" 
           @chooseBeer="onChangeBeer">
+          <delete-beer v-on:delete-beer="deleteBeer"></delete-beer>
         </beer-list>
       </div>
       <div class="w-2/3 text-center my-12 -px-4 detail">
@@ -31,22 +34,21 @@
 import debounce from "lodash/debounce";
 import BeerList from "@/components/BeerList";
 import BeerDetails from "@/components/BeerDetail";
+import CreateBeer from "@/components/CreateBeer";
 import axios from "axios";
 import sweetalert from 'sweetalert';
-import '@/assets/styles/tailwind.css';
-import '@/assets/styles/main.css';
-
 
 export default {
   components: {
     BeerList,
-    BeerDetails
+    BeerDetails,
+    CreateBeer
   },
   props: {
     chooseBeer: {
       type: Object,
       default: () => null
-    }
+    },
   },
   data() {
     return {
@@ -88,7 +90,7 @@ export default {
       const { data } = await axios.get("https://api.punkapi.com/v2/beers");
       this.beerList = data;
       const {id} = this.$route.params
-      this.selectedBeer = data.find(b => {
+      this.selectedBeer = beerList.find(b => {
         return b.id == id
       })
     } catch (e) {
@@ -107,6 +109,7 @@ export default {
       }, 500)
     }, 500),
     deleteBeer(beer) {
+      this.selectedBeer = beer,
       sweetalert({
         title: 'Are you sure?',
         text: 'This beer will be permanently deleted!',
@@ -121,6 +124,10 @@ export default {
         this.data.splice(beerIndex, 1);
         sweetalert('Deleted!', 'Your beer has been deleted.', 'success');
       });
+    },
+    createBeer(newBeer) {
+      this.beerList.push(newBeer);
+      sweetalert('Success!', 'Beer created!', 'success');
     },
   },
 };
