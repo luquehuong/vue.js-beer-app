@@ -4,11 +4,6 @@
       v-for="beer in list"
       :key="beer.id"
     >
-      <router-link
-        :to="{name:'detail',params:{id:beer.id}}"
-      >
-        {{ beer.name }}
-      </router-link>
       <span v-on:click="deleteBeer(beer)">
         <i><font-awesome-icon class="float-right" icon="trash" size="xs" /></i>
       </span>
@@ -36,6 +31,11 @@
           </div>
         </div>
       </div>
+      <router-link
+        :to="{name:'detail',params:{id:beer.id}}"
+      >
+        {{ beer.name }}
+      </router-link>
     </div>
   </div>
 </template>
@@ -62,7 +62,7 @@ export default {
   },
   methods: {
     deleteBeer(beer) {
-      this.$emit('delete-beer', beer)
+      this.$emit('deleteBeer', beer)
     },
     showForm() {
       this.isEditing = true;

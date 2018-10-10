@@ -15,11 +15,11 @@
     </div>
     <div class="flex">
       <div class="w-1/3 sidebar">
-        <create-beer v-on:create-beer="createBeer"></create-beer>
+        <create-beer v-on:createBeer="createBeer"></create-beer>
         <beer-list 
           v-bind:list="searchResult" 
           @chooseBeer="onChangeBeer"
-          v-on:delete-beer="deleteBeer">
+          @deleteBeer="deleteBeer">
         </beer-list>
       </div>
       <div class="w-2/3 text-center my-12 -px-4 detail">
@@ -34,14 +34,16 @@ import debounce from "lodash/debounce";
 import BeerList from "@/components/BeerList";
 import BeerDetails from "@/components/BeerDetail";
 import CreateBeer from "@/components/CreateBeer";
+import EditBeer from "@/components/EditBeer";
 import axios from "axios";
-import sweetalert from 'sweetalert';
+import sweetalert from "sweetalert";
 
 export default {
   components: {
     BeerList,
     BeerDetails,
     CreateBeer,
+    EditBeer,
   },
   props: {
     chooseBeer: {
@@ -86,7 +88,6 @@ export default {
   },
   async created() {
     try {
-      this.beerList = [];
       const { data } = await axios.get("https://api.punkapi.com/v2/beers");
       this.beerList = data;
       const {id} = this.$route.params
@@ -109,25 +110,16 @@ export default {
       }, 500)
     }, 500),
     deleteBeer(beer) {
-      this.beer = beer,
-      sweetalert({
-        title: 'Are you sure?',
-        text: 'This beer will be permanently deleted!',
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#DD6B55',
-        confirmButtonText: 'Yes, delete it!',
-        closeOnConfirm: false,
-      },
-      () => {
-        const beerIndex = this.beerList.indexOf(beer);
-        this.beerList.splice(beerIndex, 1);
-        sweetalert('Deleted!', 'Your beer has been deleted.', 'success');
-      });
+      const beerIndex = this.beerList.indexOf(beer);
+      this.beerList.splice(beerIndex, 1);
     },
     createBeer(newBeer) {
-      this.beerList = this.beerList.concat({...newBeer, id: Date().now});
+      this.beerList = this.beerList.concat(newBeer);
       sweetalert('Success!', 'Beer created!', 'success');
+    },
+    editBeer(beer) {
+      this.beerList = this.beerList.concat({...newBeer, id: Date().now});
+      sweetalert('Success!', 'Beer edited!', 'success');
     },
   },
 };

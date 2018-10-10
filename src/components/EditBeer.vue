@@ -1,9 +1,9 @@
 <template>
   <div class='text-center'>
-    <button class='ui basic button icon' v-on:click="openForm" v-show="!isCreating">
-      <font-awesome-icon class="float-left" icon="plus" size="sx" />
+    <button class='ui basic button icon' v-on:click="openForm" v-show="!isEditing">
+      <font-awesome-icon class="float-left" icon="edit" size="sx" />
     </button>
-    <div class='ui centered card' v-show="isCreating">
+    <div class='ui centered card' v-show="isEditing">
       <div>
         <div class='ui form'>
           <div class='field'>
@@ -20,7 +20,7 @@
           </div>
           <div class='ui two button attached buttons'>
             <button class='ui basic blue button' v-on:click="sendForm()">
-              Create
+              Save
             </button>
             <button class='ui basic red button' v-on:click="closeForm">
               Cancel
@@ -33,14 +33,25 @@
 </template>
 
 <script>
+const beerDefault = {
+  name: "",
+  description: "",
+  image_url: "",
+}
 export default {
+  props: {
+    beer: {
+      type: Object,
+      default: () => ({...beerDefault})
+    },
+  },
   data() {
     return {
-      name: "",
-      description: "",
-      image_url: "",
-      isCreating: false,
+      ...beerDefault
     };
+  },
+  created() {
+    this.data = {...this.data, ...this.beer}
   },
   methods: {
     openForm() {
@@ -54,7 +65,7 @@ export default {
         const name = this.name;
         const description = this.description;
         const image_url = this.image_url;
-        this.$emit('createBeer', {
+        this.$emit('create-beer', {
           name,
           description,
           image_url,
