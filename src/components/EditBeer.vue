@@ -1,7 +1,7 @@
 <template>
   <div class='text-center'>
-    <button class='ui basic button icon' v-on:click="openForm" v-show="!isEditing">
-      <font-awesome-icon class="float-left" icon="edit" size="sx" />
+    <button v-on:click="openForm" v-show="!isEditing">
+      <i><font-awesome-icon class="float-left" icon="edit" size="sx" /></i>
     </button>
     <div class='ui centered card' v-show="isEditing">
       <div>
@@ -55,17 +55,17 @@ export default {
   },
   methods: {
     openForm() {
-      this.isCreating = true;
+      this.isEditing = true;
     },
     closeForm() {
-      this.isCreating = false;
+      this.isEditing = false;
     },
     sendForm() {
       if (this.name.length > 0 && this.description.length > 0) {
         const name = this.name;
         const description = this.description;
         const image_url = this.image_url;
-        this.$emit('create-beer', {
+        this.$emit('editBeer', {
           name,
           description,
           image_url,

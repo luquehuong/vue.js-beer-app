@@ -19,7 +19,8 @@
         <beer-list 
           v-bind:list="searchResult" 
           @chooseBeer="onChangeBeer"
-          @deleteBeer="deleteBeer">
+          @deleteBeer="deleteBeer"
+          @editBeer="editBeer">
         </beer-list>
       </div>
       <div class="w-2/3 text-center my-12 -px-4 detail">
@@ -118,7 +119,7 @@ export default {
       sweetalert('Success!', 'Beer created!', 'success');
     },
     editBeer(beer) {
-      this.beerList = this.beerList.concat({...newBeer, id: Date().now});
+      this.beerList = this.beerList.concat(...beer);
       sweetalert('Success!', 'Beer edited!', 'success');
     },
   },

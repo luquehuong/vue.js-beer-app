@@ -1,32 +1,35 @@
 <template>
   <div>
-    <div v-show="!isEditing"
+    <div
       v-for="beer in list"
       :key="beer.id"
     >
-      <span v-on:click="deleteBeer(beer)">
+      <span @click="deleteBeer(beer)">
         <i><font-awesome-icon class="float-right" icon="trash" size="xs" /></i>
       </span>
-      <span v-on:click="showForm">
+      <span @click="editBeer(beer); openForm" v-show="!isEditing">
         <i><font-awesome-icon class="float-right" icon="edit" size="xs" /></i>
       </span>
-      <div v-show="isEditing">
+      <div class='ui centered card' v-show="isEditing">
         <div class='ui form'>
           <div class='field'>
             <label>Name</label>
-            <input type='text' v-model="beer.name" >
+            <input v-model="name" type='text'>
           </div>
           <div class='field'>
             <label>Description</label>
-            <input type='text' v-model="beer.description" >
+            <input v-model="description" type='text'>
           </div>
           <div class='field'>
             <label>Image</label>
-            <input type='text' v-model="beer.image_url" >
+            <input v-model="image_url" type='text'>
           </div>
           <div class='ui two button attached buttons'>
-            <button class='ui basic blue button' v-on:click="hideForm">
-              Close X
+            <button class='ui basic blue button' v-on:click="sendForm()">
+              Save
+            </button>
+            <button class='ui basic red button' v-on:click="closeForm">
+              Cancel
             </button>
           </div>
         </div>
@@ -48,6 +51,9 @@ export default {
   data() {
     return {
       isEditing: false,
+      name: "",
+      description: "",
+      image_url: "",
     };
   },
   props: {
@@ -69,6 +75,29 @@ export default {
     },
     hideForm() {
       this.isEditing = false;
+    },
+    openForm() {
+      this.isEditing = true;
+    },
+    closeForm() {
+      this.isEditing = false;
+    },
+    sendForm() {
+      if (this.name.length > 0 && this.description.length > 0) {
+        const name = this.name;
+        const description = this.description;
+        const image_url = this.image_url;
+        this.$emit('editBeer', {
+          name,
+          description,
+          image_url,
+          done: false,
+        });
+        this.name = "";
+        this.description = "";
+        this.image_url = "";
+        this.isCreating = false;
+      }
     },
   }
 };
