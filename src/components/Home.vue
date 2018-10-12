@@ -9,7 +9,8 @@
         </router-link>
       </div>
       <div class="w-1/3 flex -px-4">
-        <input class="w-full" placeholder="Find your beer..." name="search" v-model="queryString" type="search"/>
+        <input class="w-full text-black" placeholder="Find your beer..." name="search" v-model="queryString" type="search"/>
+        <span><font-awesome-icon class="float-right" icon="search" size="md" /></span>
       </div>
       <div>{{ searchStatus }}</div>
     </div>

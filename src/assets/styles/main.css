@@ -10,6 +10,7 @@ body {
 :root {
   --gutter: 2rem;
 }
+
 .row {
   margin-left: calc(-var(--gutter) / 2);
   margin-right: calc(-var(--gutter) / 2);
