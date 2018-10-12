@@ -4,7 +4,10 @@
       v-for="beer in list"
       :key="beer.id"
     >
-      <beer :beer="beer"></beer>
+      <beer 
+      :beer="beer"
+      @deleteBeer="deleteBeer">
+      </beer>
     </div>
   </div>
 </template>
@@ -28,6 +31,11 @@ export default {
       default: () => null
     }
   },
+  methods: {
+    deleteBeer(beer) {
+      this.$emit('deleteBeer', beer);
+    }
+  }
 }
 </script>
 <style scoped>
