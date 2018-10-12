@@ -36,6 +36,7 @@ import BeerList from "@/components/BeerList";
 import BeerDetails from "@/components/BeerDetail";
 import CreateBeer from "@/components/CreateBeer";
 import EditBeer from "@/components/EditBeer";
+import Beer from "@/components/Beer";
 import axios from "axios";
 import sweetalert from "sweetalert";
 
@@ -45,6 +46,7 @@ export default {
     BeerDetails,
     CreateBeer,
     EditBeer,
+    Beer,
   },
   props: {
     chooseBeer: {
@@ -117,11 +119,7 @@ export default {
     createBeer(newBeer) {
       this.beerList = this.beerList.concat(newBeer);
       sweetalert('Success!', 'Beer created!', 'success');
-    },
-    editBeer(beer) {
-      this.beerList = this.beerList.concat(...beer);
-      sweetalert('Success!', 'Beer edited!', 'success');
-    },
+    }
   },
 };
 </script>

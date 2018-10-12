@@ -12,7 +12,7 @@
           </div>
           <div class='field'>
             <label>Description</label>
-            <input v-model="description" type='text'>
+            <textarea rows="3" v-model="description"></textarea>
           </div>
           <div class='field'>
             <label>Image</label>
