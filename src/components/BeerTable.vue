@@ -3,15 +3,15 @@
     <table>
       <thead>
         <tr>
-          <th>Image</th>
-          <th>Name</th>
-          <th>Tag Line</th>
-          <th>Volume / boil volume (liters)</th>
+          <th @click="sort('image_url')">Image</th>
+          <th @click="sort('name')">Name</th>
+          <th @click="sort('tagline')">Tag Line</th>
+          <th @click="sort('volume')">Volume / boil volume (liters)</th>
         </tr>
       </thead>
       <tbody>
         <tr 
-          v-for="beer in list" 
+          v-for="beer in sortedList" 
           :key="beer.id"
         >
           <td><img class="img" :src="beer.image_url"></td>
@@ -30,6 +30,8 @@ export default {
   data() {
     return {
       list: [],
+      currentSort:'',
+      currentSortDir:'',
     };
   },
   async created() {
@@ -38,6 +40,26 @@ export default {
       this.list = data;
     } catch (e) {
       console.error(e)
+    }
+  },
+  methods:{
+    sort:function(s) {
+      //if s == current sort, reverse
+      if(s === this.currentSort) {
+        this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';
+      }
+      this.currentSort = s;
+    }
+  },
+  computed:{
+    sortedList:function() {
+      return this.list.sort((a,b) => {
+        let modifier = 1;
+        if(this.currentSortDir === 'desc') modifier = -1;
+        if(a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+        if(a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+        return 0;
+      });
     }
   },
 }
