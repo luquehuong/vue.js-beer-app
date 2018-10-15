@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="beer">{{ beer.description }}</div>
-    <div v-if="beer"><img class="img" :src="beer.image_url"></div>
+    <div v-if="beer"><img class="img-detail" :src="beer.image_url"></div>
   </div>
 </template>
 <script>

@@ -43,6 +43,7 @@ import BeerDetails from "@/components/BeerDetail";
 import CreateBeer from "@/components/CreateBeer";
 import EditBeer from "@/components/EditBeer";
 import Beer from "@/components/Beer";
+import BeerTable from "@/components/BeerTable";
 import axios from "axios";
 import sweetalert from "sweetalert";
 
@@ -53,6 +54,7 @@ export default {
     CreateBeer,
     EditBeer,
     Beer,
+    BeerTable,
   },
   props: {
     chooseBeer: {
