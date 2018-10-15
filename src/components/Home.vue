@@ -7,6 +7,11 @@
         >
           Random Beers
         </router-link>
+        <router-link class="flex float-right text-white font-semibold my-4 -px-4 mx-4"
+          :to="{name:'table'}"
+        >
+          Show Beers in Table
+        </router-link>
       </div>
       <div class="w-1/3 flex -px-4">
         <input class="w-full text-black" placeholder="Find your beer..." name="search" v-model="queryString" type="search"/>
