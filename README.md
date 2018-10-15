@@ -1,4 +1,4 @@
-# new
+# My Beer App
 
 ## Project setup
 ```
