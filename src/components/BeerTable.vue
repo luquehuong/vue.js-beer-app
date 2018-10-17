@@ -10,7 +10,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="beer in getRows()" :key="beer.id">
+        <tr v-for="beer in sortedList" :key="beer.id">
           <td><img class="img" :src="beer.image_url"></td>
           <td>{{ beer.name }}</td>
           <td>{{ beer.tagline }}</td>
@@ -19,10 +19,17 @@
       </tbody>
     </table>
     <div class="pagination">
-      <div class="number"
-        v-for="i in numPages()" :key="i.id"
-        :class="[i == currentPage ? 'active' : '']"
-        @click="changePage(i)">{{i}}
+      <label>Beers per page</label>
+      <select v-model="beersPerPage">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+      </select>
+      <div class="flex mx-auto w-full">
+        <button class="btn" :disabled="!changePage(-1)" @click="prevPage">← Previous</button> 
+        <button class="btn" :disabled="!changePage(1)"  @click="nextPage">Next →</button>
       </div>
     </div>
   </div>
@@ -36,19 +43,26 @@ export default {
       list: [],
       currentSort:'',
       currentSortDir:'',
-      currentPage: 1,
-      elementsPerPage: 10,
+      params: {
+        page: 1,
+        per_page: 10,
+      }
     };
   },
-  async created() {
-    try {
-      const { data } = await axios.get("https://api.punkapi.com/v2/beers");
-      this.list = data;
-    } catch (e) {
-      console.error(e)
-    }
+  created() {
+    this.getBeerList(this.params)  
   },
   methods:{
+    async getBeerList(params) {
+      try {
+      const { data } = await axios.get("https://api.punkapi.com/v2/beers", {
+        params
+      });
+      this.list = data;
+      } catch (e) {
+        console.error(e)
+      }
+    },
     sort:function(s) {
       //if s == current sort, reverse
       if(s === this.currentSort) {
@@ -56,29 +70,39 @@ export default {
       }
       this.currentSort = s;
     },
-    numPages: function numPages() {
-      return Math.ceil(this.list.length / this.elementsPerPage);
+    changePage: function(dir) {
+      if (dir === -1 && (this.params.page > 0)) return true;
+      if (dir ===  1) return true;
     },
-    getRows: function getRows() {
-      var start = (this.currentPage-1) * this.elementsPerPage;
-      var end = start + this.elementsPerPage;
-      return this.sortedList.slice(start, end);
+    prevPage: function() {
+      if (this.changePage(-1)) this.params.page--;
+      return this.getBeerList(this.params);
     },
-    changePage: function changePage(page) {
-      this.currentPage = page;
+    nextPage: function() {
+      if (this.changePage(1)) this.params.page++;
+      return this.getBeerList(this.params);
     }
   },
   computed:{
     sortedList:function() {
-      return this.list.sort((a,b) => {
+      return this.list.slice(0).sort((a,b) => {
         let modifier = 1;
         if(this.currentSortDir === 'desc') modifier = -1;
         if(a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
         if(a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
         return 0;
       });
-    }
-  },
+    },
+    beersPerPage: {
+      get() {
+        return this.params.per_page;
+      },
+      set(v) {
+        this.params.per_page = v;
+        this.params.page = 1;
+      }
+    },
+  }
 }
 </script>
 <style scoped>
@@ -114,10 +138,11 @@ table tbody tr:nth-child(2n) td {
   background: #e5f1f9;
 }
 .pagination {
+  margin-left: auto;
+  margin-right: auto;
   font-family: 'Open Sans', sans-serif;
-  text-align: right;
-  width: 750px;
-  padding: 8px;
+  text-align: center;
+  margin-top: 1rem;
 }
 .number {
   display: inline-block;
@@ -130,6 +155,35 @@ table tbody tr:nth-child(2n) td {
 }
 .number:hover, .number.active {
   background: #96f293;
+}
+input, select {
+  text-align: center;
+  width: 10%;
+  margin-left: 0.5rem;
+  min-width: 10%;
+  max-width: 10%;
+  max-height: 2rem;
+  padding: 0.25rem;
+  background-color: #e5f1f9;
+  font-size: 1rem;
+  border: 0.1rem #2472a5;
+}
+.btn {
+  display: block;
+  width: 150px;
+  margin: 1rem 0.5rem;
+  padding: 1rem 2rem;  
+  color: #111;
+  background: transparent;
+  border: 0.1rem solid #111;
+  outline: 0;
+  border-radius: 0.3rem;
+  
+  font-weight: bold;
+  line-height: 1;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
 }
 </style>
 
