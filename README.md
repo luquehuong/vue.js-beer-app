@@ -3,6 +3,10 @@
 * Show 2 columns with left column shows list and right column show detail when user click on the item.  
 * Allow user to search for beer they want by beer name. 
 * Show loading indicator when user input new search keyword.
+* Create, update, delete a beer.
+* Login page.
+* Sorting beer by column.
+* Pagination.
 
 ## Project setup
 ```bash
