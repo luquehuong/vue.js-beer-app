@@ -6,6 +6,7 @@
       @change="updateState">
       <form slot-scope="props" @submit="props.handleSubmit">
         <span class="error" v-if="props.submitError">{{props.submitError}}</span>
+        <div class="note note--down"><p>{{ note }}</p></div>
         <FinalField name="userAcc" :validate="required">
           <div slot-scope="props">
             <input
@@ -67,7 +68,19 @@ export default {
       formState: null,
       user: 'admin',
       password: 'adminPassword',
-      FORM_ERROR: 'Username or password is uncorrect'
+      FORM_ERROR: 'Username or password is uncorrect',
+      note: ''
+    }
+  },
+  watch: {
+    note () {
+      const note = document.querySelector('.note')
+      if (this.note.length) {
+        note.classList.add('note--up')
+      } else {
+        note.classList.remove('note--up')
+        note.classList.add('note--down')
+      }
     }
   },
   methods: {
@@ -97,10 +110,9 @@ export default {
     login (userAcc, password) {
       if (userAcc === this.user && password === this.password) {
         this.$router.replace({ name: 'home' })
-        return true
-      } else {
-        return Promise.reject(new Error('Login failed'))
+        this.note = ''
       }
+      this.note = 'Login failed'
     }
   }
 }
