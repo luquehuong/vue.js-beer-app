@@ -1,25 +1,12 @@
 <template>
   <div>
-    <div>
-      <h4> Cart </h4>
-      <div id="carts">
-        <p v-if = "cartItems.length <= 0"> No cart items  </p>
-        <div v-for = "beer in cartItems" :key="beer.id">
-          <span> {{ beer.name }} </span>
-          <span class="delete btn text-danger" v-on:click="deleteItem(beer)"> &#x2718; </span>    
-        </div> 
-      </div>
-    </div>
     <div
-      v-for="beer in list"
+      v-for="beer in list" track-by='$index'
       :key="beer.id"
     >
       <beer 
       :beer="beer"
-      :item="item"
-      @deleteBeer="deleteBeer"
-      @addToCart="addToCart"
-      @deleteItem="deleteItem">
+      @deleteBeer="deleteBeer">
       </beer>
     </div>
   </div>
@@ -29,15 +16,12 @@
 import '@/assets/styles/tailwind.css';
 import '@/assets/styles/main.css';
 import Beer from '@/components/Beer';
+import Cart from '@/components/Cart';
 
 export default {
   components: {
     Beer,
-  },
-  data() {
-    return {
-      cartItems: [],
-    }
+    Cart
   },
   props: {
     list: {
@@ -47,23 +31,15 @@ export default {
     beer: {
       type: Object,
       default: () => null
+    },
+    cart: {
+      type: Array,
+      default: () => []
     }
   },
   methods: {
     deleteBeer(beer) {
       this.$emit('deleteBeer', beer);
-    },
-    addToCart (beer) {
-      if (this.cartItems.includes(beer)) {
-        alert("already there");
-      } else {
-        this.cartItems.push(beer);  
-      }
-    },
-    deleteItem (item) {         
-      this.cartItems.splice(
-        this.cartItems.indexOf(item), 1
-      );
     }
   }
 }

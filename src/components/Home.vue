@@ -2,6 +2,7 @@
   <div class="container px-4 mx-auto">
     <div class="topnav">
       <div>
+        <cart class="float-right mt-3" :cart="cart"></cart>
         <router-link class="flex float-right text-white font-semibold my-4 -px-4 mx-4"
           :to="{name:'random'}"
         >
@@ -43,6 +44,7 @@ import BeerDetails from "@/components/BeerDetail";
 import CreateBeer from "@/components/CreateBeer";
 import EditBeer from "@/components/EditBeer";
 import Beer from "@/components/Beer";
+import Cart from "@/components/Cart";
 import BeerTable from "@/components/BeerTable";
 import axios from "axios";
 import sweetalert from "sweetalert";
@@ -54,6 +56,7 @@ export default {
     CreateBeer,
     EditBeer,
     Beer,
+    Cart,
     BeerTable,
   },
   props: {
@@ -61,6 +64,10 @@ export default {
       type: Object,
       default: () => null
     },
+    cart: {
+      type: Object,
+      default: () => null
+    }
   },
   data() {
     return {
@@ -69,6 +76,7 @@ export default {
       queryString: '',
       typing: false,
       fetching: false,
+      cartSize: 0
     };
   },
   watch: {

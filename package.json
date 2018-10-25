@@ -17,7 +17,8 @@
     "sweetalert": "^2.1.0",
     "vue": "^2.5.17",
     "vue-final-form": "^3.0.0",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.4",

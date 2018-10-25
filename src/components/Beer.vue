@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div :cart="cart">
       <span @click="deleteBeer(beer)">
         <i><font-awesome-icon class="float-right" icon="trash" size="xs" /></i>
       </span>
@@ -44,12 +44,24 @@
 <script>
 import '@/assets/styles/tailwind.css';
 import '@/assets/styles/main.css';
+import Cart from '@/components/Cart';
 
 export default {
+  components: {
+    Cart
+  },
   props: {
     beer: {
       type: Object,
       default: () => null
+    },
+    cart: {
+      type: Array,
+      default: () => []
+    },
+    cartSize: {
+      type: Number,
+      default: () => 0
     }
   },
   data() {
@@ -67,11 +79,25 @@ export default {
     closeForm() {
       this.isEditing = false;
     },
-    addToCart (beer) {
-      this.$emit('addToCart', beer);
-    },
-    deleteItem (item) {         
-      this.$emit('deleteItem', item);
+    addToCart(beer) {
+      var found = false;
+
+      for (var i = 0; i < this.cart.length; i++) {
+
+        if (this.cart[i].id === beer.id) {
+          var newBeer = this.cart[i];
+          newBeer.quantity = newBeer.quantity + 1;
+          this.cart.push(newBeer);
+          //console.log("DUPLICATE",  this.cart[i].beer + "'s quantity is now: " + this.cart[i].quantity);
+          found = true;
+          break;
+        }
+      }
+
+      if(!found) {
+        beer.quantity = 1;
+        this.cart.push(beer);
+      }
     }
   }
 };  
